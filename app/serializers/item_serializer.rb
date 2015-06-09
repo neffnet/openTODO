@@ -2,7 +2,7 @@ class ItemSerializer < ActiveModel::Serializer
   attributes :id, :name, :user, :list
 
   def user
-    [object.user.id, object.user.name]
+    [object.list.user.id, object.list.user.name]
   end
 
   def list
