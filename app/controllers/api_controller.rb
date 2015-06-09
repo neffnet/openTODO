@@ -5,7 +5,7 @@ class ApiController < ApplicationController
   def verify_params
     param_name = self.class.to_s.titleize.split.first.split('/')[1].singularize.downcase
     if !params.key? param_name.to_sym
-      render json: {errors: "parameter missing: #{param_name}"}, status: :unprocessable_entity and return
+      render json: { errors: "parameter missing: #{param_name}" }, status: :unprocessable_entity and return
     end
   end
 
