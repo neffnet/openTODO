@@ -15,6 +15,9 @@ class Api::UsersController < ApiController
     end
   end
 
+  def destroy
+  end
+
   private
 
   def user_params
