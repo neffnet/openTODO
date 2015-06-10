@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :verify_params
+  before_action :verify_params, except: :destroy
 
   def verify_params
     param_name = self.class.to_s.titleize.split.first.split('/')[1].singularize.downcase

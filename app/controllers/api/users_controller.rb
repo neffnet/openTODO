@@ -16,6 +16,8 @@ class Api::UsersController < ApiController
   end
 
   def destroy
+    @current_user.destroy
+    render json: {}, status: :no_content 
   end
 
   private
