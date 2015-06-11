@@ -27,6 +27,6 @@ class Api::ListsController < ApiController
   private
 
   def list_params
-    params.permit(:title)
+    params.permit(:title, :permissions)
   end
 end
