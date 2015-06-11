@@ -10,10 +10,40 @@ class Api::ListsController < ApiController
     end
   end
 
+  def show
+    begin
+      list = List.find(params[:id])
+      if authorized?(list, "show")
+        render json: list
+      else
+        render json: {errors: 'not authorized'}, status: :not_authorized
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: {}, status: :not_found
+    end
+  end
+
+  def update
+    begin
+      list = List.find(params[:id])
+      if authorized?(list, "update")
+        if list.update(list_params)
+          render json: list
+        else
+          render json: {errors: list.errors.full_messages}, status: :unprocessable_entity 
+        end
+      else
+        render json: {errors: 'not authorized'}, status: :not_authorized
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: {}, status: :not_found
+    end
+  end
+
   def destroy
     begin
       list = List.find(params[:id])
-      if list.user == @current_user
+      if authorized?(list, "destroy")
         list.destroy
         render json: {}, status: :no_content
       else
@@ -21,6 +51,17 @@ class Api::ListsController < ApiController
       end
     rescue ActiveRecord::RecordNotFound
       render json: {}, status: :not_found
+    end
+  end
+
+  def authorized?(list, action)
+    case action
+    when "show"
+      list.permissions == "public" || list.permissions == "viewable" || list.user == @current_user
+    when "destroy"
+      list.user == @current_user
+    when "update"
+      list.permissions == "public" || list.user == @current_user
     end
   end
 
