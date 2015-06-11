@@ -54,17 +54,6 @@ class Api::ListsController < ApiController
     end
   end
 
-  def authorized?(list, action)
-    case action
-    when "show"
-      list.permissions == "public" || list.permissions == "viewable" || list.user == @current_user
-    when "destroy"
-      list.user == @current_user
-    when "update"
-      list.permissions == "public" || list.user == @current_user
-    end
-  end
-
   private
 
   def list_params
