@@ -20,6 +20,7 @@ class Api::ItemsController < ApiController
         render json: {}, status: :no_content
       else
         render json: {errors: "not authorized"}, status: :not_authorized
+      end
     rescue ActiveRecord::RecordNotFound
       render json: {}, status: :not_found
     end
